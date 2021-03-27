@@ -6,7 +6,7 @@ BEGIN{ max=0; home=0; consumer=0; corporate=0; central=0; east=0; south=0; west=
 { pp=$21/($18-$21)*100; if (pp>=max) { max=pp; id=$1 } }
 
 #soal b
-{ if ($3 ~ 17 && $10=="Albuquerque") { nama[$7] } }
+{ if ((match($3, "-17")) && $10=="Albuquerque") { nama[$7] } }
 
 #soal c
 { if ($8=="Home Office") { home++ } else if ($8=="Consumer") { consumer++ } else if ($8=="Corporate") { corporate++ } }
