@@ -1,0 +1,42 @@
+#!/usr/bin/bash
+
+awk -F"\t" '
+#soal a
+BEGIN{ max=0 }
+{ pp=$21/($18-$21)*100; if (pp>=max) { max=pp; id=$1 } }
+
+#soal b
+{ if ($3 ~ 17 && $10=="Albuquerque") { nama[$7] } }
+
+#soal c
+{ if ($8=="Home Office") { home++ } else if ($8=="Consumer") { consumer++ } else if ($8=="Corporate") { corporate++ } }
+
+#soal d
+{ if ($13=="Central") { central+=$21 } else if ($13=="East") { east+=$21 } else if ($13=="South") { south+=$21 } else if ($13=="West") { west+=$21 } }
+END {
+#jawaban a
+printf "Transaksi terakhir dengan profit percentage terbesar yaitu %d dengan presentase %f%%.\n\n", id, max
+
+#jawaban b
+printf "Daftar nama customer di Albuquerque pada tahun 2017 antara lain:\n"
+for (i in nama)
+	printf "%s\n", i
+
+#jawaban c
+if (home<=consumer && home<=corporate)
+	printf "\nTipe segmen customer yang penjualannya paling sedikit adalah Home Office dengan %d total transaksi.\n", home
+else if (consumer<=home && consumer<=corporate)
+	printf "\nTipe segmen customer yang penjualannya paling sedikit adalah Consumer dengan %d total transaksi.\n", comsumer
+else
+	printf "\nTipe segmen customer yang penjualannya paling sedikit adalah Corporate dengan %d total transaksi.\n", corporate
+
+#jawaban d
+if (central<=east && central<=south && central<=west)
+	printf "\nWilayah bagian (region) yang memiliki total keuntungan (profit) yang paling sedikit adalah Central dengan total keuntungan %f.\n", central
+else if (east<=central && east<=south && east<=west)
+	printf "\nWilayah bagian (region) yang memiliki total keuntungan (profit) yang paling sedikit adalah East dengan total keuntungan %f.\n", east
+else if (south<=central && south<=east && south<=west)
+	printf "\nWilayah bagian (region) yang memiliki total keuntungan (profit) yang paling sedikit adalah South dengan total keuntungan %f.\n", south
+else
+	printf "\nWilayah bagian (region) yang memiliki total keuntungan (profit) yang paling sedikit adalah West dengan total keuntungan %f.\n", west
+}' Laporan-TokoShiSop.tsv > hasil.txt
