@@ -3,7 +3,7 @@
 #  nomor 1 a
 grep -oE "(INFO.*)|(ERROR.*)" syslog.log
 
-  nomor 1 b
+#  nomor 1 b
 grep -oE 'ERROR.*' syslog.log
 echo | grep -cE 'ERROR' syslog.log 
 
