@@ -7,7 +7,7 @@ grep -oE "(INFO.*)|(ERROR.*)" syslog.log
 grep -oE 'ERROR.*' syslog.log
 echo | grep -cE 'ERROR' syslog.log 
 
-  nomor 1 c
+#  nomor 1 c
 name=`grep -oE "(\([a-zA-Z]+\))" syslog.log | sort | uniq | grep -oP "(?<=\().*(?=\))"`
 echo "$name" |
 while read -r lines
