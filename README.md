@@ -62,6 +62,7 @@ else
 }
 ' Laporan-TokoShiSop.tsv > hasil.txt
 ```
+
 - `-F"\t"` untuk mengubah field separator menjadi tab per kolom
 - `BEGIN{ max=0; home=0; consumer=0; corporate=0; central=0; east=0; south=0; west=0 }` mendeklarasikan variabel di blok BEGIN
 
@@ -75,15 +76,39 @@ Menggunakan formula: `profit percentage = (profit/cost price) x 100` dengan *cos
   - `$18` kolom **Sales**
 - `id=$1` variabel id menyimpan id dari kolom **Row ID**
 
-### (b)
-Menampilkan nama *customer* pada transaksi tahun 2017 di Albuquerque
-### (c)
-Menampilkan segment customer dan jumlah transaksinya yang paling sedikit
-### (d)
-Menampilkan wilayah bagian (region) yang memiliki total keuntungan (profit) paling sedikit dan total keuntungan wilayah tersebut
-### (e)
-Membuat script yang menghasilkan file **hasil.txt** dengan format yang sudah ditentukan
+### (b) Menampilkan nama *customer* pada transaksi tahun 2017 di Albuquerque
+```
+{ if ((match($3, "-17")) && $10=="Albuquerque") { nama[$7] } }
+```
+- `if ((match($3, "-17")) && $10=="Albuquerque")` mencari kondisi yang sesuai
+  - `match($3, "-17"` menggunakan fungsi match() untuk mencari record yang mengandung **"-17"** (tahun 2017) di kolom `$3` **Order Date**
+  - `$10=="Albuquerque"` mencari record yang persis sama dengan **"Albuquerque"** di kolom `$10` **City**
+- `{ nama[$7] }` memasukkan nama di kolom `$7` **Customer Name** ke array nama
 
+### (c) Menampilkan segment customer dan jumlah transaksinya yang paling sedikit
+```
+{ if ($8=="Home Office") { home++ } else if ($8=="Consumer") { consumer++ } else if ($8=="Corporate") { corporate++ } }
+```
+- Mencari kondisi yang sesuai di kolom **Segment**
+  - `$8` Kolom **Segment** 
+- Setiap kondisi yang sesuai ditemukan, variabel untuk menghitung masing-masing segment akan bertambah
+
+### (d) Menampilkan wilayah bagian (region) yang memiliki total keuntungan (profit) paling sedikit dan total keuntungan wilayah tersebut
+```
+{ if ($13=="Central") { central+=$21 } else if ($13=="East") { east+=$21 } else if ($13=="South") { south+=$21 } else if ($13=="West") { west+=$21 } }
+```
+- Mencari kondisi yang sesuai di kolom **Region**
+  - `$13` kolom **Region**
+- Menambahkan profit dari kolom **Profit** ke variabel untuk menghitung jumlah profit masing-masing region
+  - `$21` kolom **Profit**
+
+### (e) Membuat script yang menghasilkan file **hasil.txt** dengan format yang sudah ditentukan
+Pada blok END akan mencetak setiap soal yang telah dibuat dengan format yang sudah ditentukan.
+```
+Laporan-TokoShiSop.tsv > hasil.txt
+```
+- `Laporan-TokoShiSop.tsv` sumber file yang menjadi input
+- `> hasil.txt` hasil output akan dikirim ke file **hasil.txt**
 
 ## No.3
 Mengunduh gambar dari website tertentu
