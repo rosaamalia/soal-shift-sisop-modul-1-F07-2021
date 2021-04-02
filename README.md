@@ -29,6 +29,17 @@ grep -oE "(INFO.*)|(ERROR.*)" syslog.log
   - Tanda kurung `()` digunakan untuk mengelompokkan pola dan dapat mereferensikan mereka sebagai satu item
   - Simbol bintang `*` pada `INFO.*` dan `ERROR.*` adalah quantifier untuk mencocokkan pola dimulai dari nol dan seterusnya
   - Operator pipe `|` memiliki arti alternatif sebagai *"OR"*.  Operator ini memungkinkan untuk mencari kemungkinan pola dari `ERROR.*` dan `INFO.*`
+
+Ouput yang dihasilkan:
+```
+...
+ERROR Permission denied while closing ticket (ac)
+INFO Commented on ticket [#4709] (blossom)
+...
+```
+![Output 1a](https://user-images.githubusercontent.com/68428942/113433519-8f9d4f80-9409-11eb-9725-755c97e7a2b7.png)
+
+*Gambar hanya menampilkan sebagian output*
  
 ### (b)
 Menampilkan semua pesan error dengan jumlah kemunculannya.
@@ -46,6 +57,12 @@ echo | grep -cE 'ERROR' syslog.log
   - `grep` command untuk mencari file dengan pola yang telah ditentukan
   - `-c` menghitung banyaknya line yang sesuai dengan pola
   - `-E` menerjemahkan pola sebagai extended regular expressions (EREs)
+
+Ouput yang akan dihasilkan:
+
+![Output 1b](https://user-images.githubusercontent.com/68428942/113434511-4cdc7700-940b-11eb-9d23-b1e13eb7cbbf.png)
+
+*Gambar hanya menampilkan sebagian output*
 
 ### (c)
 Menampilkan jumlah kemunculan log ERROR dan INFO untuk setiap *user*-nya.
@@ -84,6 +101,10 @@ done
     - `-c` menghitung banyaknya line yang sesuai dengan pola `$lines`
   - `lines+=','$total` menambahkan tanda koma dan total di string `lines` yang berisi username
   - `echo $lines` menampilkan `lines` yang berisi username dan jumlah log dan errornya
+
+Output yang dihasilkan:
+
+![Output 1c](https://user-images.githubusercontent.com/68428942/113434715-acd31d80-940b-11eb-8c24-8383ddfc1dcc.png)
 
 ### (d)
 Informasi yang didapat di poin **(b)** dituliskan ke dalam file `error_message.csv` dengan header **Error, Count** diurutkan berdasarkan *jumlah kemunculan pesan error terbanyak*
@@ -126,7 +147,13 @@ done | sort  -rnk 2 -t ',' >> error_message.csv
     - `-n` mengurutkan berdasarkan nilai numerik/angka
     - `-k 2` menetapkan urutan berdasarkan field ke-2, yaitu field jumlah ERROR
     - `-t ','` mengenali separator field, yaitu tanda koma
-    - `>> error_massage.csv` pesan ERROR yang telah diurutkan dimasukkan tanpa menghilangkan isi `error_massage.csv` yang sudah ada
+    - `>> error_massage.csv` pesan ERROR yang telah diurutkan dimasukkan tanpa menghilangkan isi `error_message.csv` yang sudah ada
+ 
+ Output yang dihasilkan:
+ 
+ ![Ountput 1d](https://user-images.githubusercontent.com/68428942/113434838-e015ac80-940b-11eb-9e1b-9108647d722f.png)
+ 
+ *Ouput pada file error_message.csv*
 
 ### (e)
 Semua informasi yang didapatkan pada poin **(c)** dituliskan ke dalam file `user_statistic.csv` dengan header **Username,INFO,ERROR** diurutkan berdasarkan *username* secara *ascending*
@@ -159,6 +186,12 @@ done | sort >> user_statistics.csv
     - Sama dengan command di atas, bedanya hanya pola dimulai dari "ERROR"
 - `sort >> user_statistics.csv` memindahkan output dan menambahkannya di bawah `user_statistics.csv`
   - `sort` mengurutkan input
+
+Ouput yang dihasilkan:
+
+![Ouput 1d](https://user-images.githubusercontent.com/68428942/113435120-64682f80-940c-11eb-9030-c00be65afbaa.png)
+
+*Output pada file user_statistics.csv*
   
 ## No.2
 Mencari kesimpulan dari data penjualan `Laporan-TokoShiSop.tsv`
