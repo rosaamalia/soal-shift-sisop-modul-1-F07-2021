@@ -76,9 +76,58 @@ done
       - `(?<=\().*(?=\))` menggunakan *lookbehind*. `?<=\()` untuk mencocokkan pola setelah tanda buka kurung `(` dan `.*` mengambil semua string yang setelahnya. `(?=\))` untuk membatasi string yang diambil, yaitu hingga sebelum tanda tutup kurung `)`
 - `echo "$name"` menampilkan tiap isi dari variabel name
 - Operator pipe `|` untuk mengoper hasil ouput `echo "$name"` ke program perulangan while di bawahnya
+  - `while read -r lines` kondisi perulangan while
+    - `read` membaca `$name` sebagai `lines`
+    - `-r` membuat backslash sebagai simbol, sehingga tidak ada karakter yang hilang
+  - Variabel `total` berisi command `grep -c "$lines" syslog.log` untuk menghitung banyak `$lines` yang berisi username
+    - `grep` command untuk mencari file dengan pola yang telah ditentukan
+    - `-c` menghitung banyaknya line yang sesuai dengan pola `$lines`
+  - `lines+=','$total` menambahkan tanda koma dan total di string `lines` yang berisi username
+  - `echo $lines` menampilkan `lines` yang berisi username dan jumlah log dan errornya
 
 ### (d)
 Informasi yang didapat di poin **(b)** dituliskan ke dalam file `error_message.csv` dengan header **Error, Count** diurutkan berdasarkan *jumlah kemunculan pesan error terbanyak*
+```
+echo "Error","Count" > error_message.csv
+error=`grep -oE "ERROR.*([A-Z][a-z]+)\s(['A-Za-z]+\s){1,5}" syslog.log | sort | uniq`
+echo "$error" |
+while read -r line
+do
+    total=`grep -c "$line" syslog.log`
+    line+=','$total
+    echo $line
+done | sort  -rnk 2 -t ',' >> error_message.csv
+```
+- `echo "Error","Count" > error_message.csv` menambah *Error* dan *Count* sebagai header pada file `error_massage.csv`
+- Variabel `error` berisi command untuk mendapatkan ERROR
+  - `grep -oE "ERROR.*([A-Z][a-z]+)\s(['A-Za-z]+\s){1,5}" syslog.log | sort | uniq`
+    - `grep` command untuk mencari file dengan pola yang telah ditentukan
+    - `-o` option untuk menampilkan bagian yang hanya sesuai dengan pola
+    - `-E` menerjemahkan pola sebagai extended regular expressions (EREs)
+    - `"ERROR.*([A-Z][a-z]+)\s(['A-Za-z]+\s){1,5}"` pola yang akan dicari
+      - `ERROR.*` akan mencari dengan pola di awali dengan "ERROR" dan seterusnya
+      - `([A-Z][a-z]+)` akan mencari pola dengan huruf pertama kapital dan selanjutnya huruf kecil. Simbol `+` adalah quantifier untuk mencocokkan pola dimulai dari satu dan seterusnya
+      - `\s` mencocokkan sesuai dengan spasi
+      - `{1,5}` mencocokkan setiap kata dari urutan 1 sampai 5
+    - `| sort` output dari command sebelumnya diurutkan
+    - `uniq` menyaring ERROR sehingga tidak ada yang duplikat
+- `echo "$error" |` menampilkan `$error` dan mengoper output ke perulangan while dibawahnya dengan menggunakan operator pipe `|`
+  - `while read -r line` kondisi perulangan while
+    - `read` membaca `$error` sebagai `line`
+    - `-r` membuat backslash sebagai simbol, sehingga tidak ada karakter yang hilang
+  - Variabel `total` berisi command `grep -c "$line" syslog.log` untuk menghitung jumlah ERROR
+    - `grep` command untuk mencari file dengan pola yang telah ditentukan
+    - `-c` menghitung banyaknya line yang sesuai dengan pola `$line`
+  - `line+=','$total` menambahkan tanda koma dan total di string `line` yang berisi pesan ERROR
+  - `echo $line` menampilkan `$line` yang berisi pesan ERROR dan jumlah kemunculannya
+  - `| sort  -rnk 2 -t ',' >> error_message.csv` memindahkan output dan menambahkannya dibawah ke `error_message.csv`
+    - `sort` untuk mengurutkan `$line`
+    - `-r` me-reverse urutan sorting
+    - `-n` mengurutkan berdasarkan nilai numerik/angka
+    - `-k 2` menetapkan urutan berdasarkan field ke-2, yaitu field jumlah ERROR
+    - `-t ','` mengenali separator field, yaitu tanda koma
+    - `>> error_massage.csv` pesan ERROR yang telah diurutkan dimasukkan tanpa menghilangkan isi `error_massag.csv` yang sudah ada
+
 ### (e)
 Semua informasi yang didapatkan pada poin **(c)** dituliskan ke dalam file `user_statistic.csv` dengan header **Username,INFO,ERROR** diurutkan berdasarkan *username* secara *ascending*
 
