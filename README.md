@@ -232,11 +232,71 @@ Laporan-TokoShiSop.tsv > hasil.txt
 Mengunduh gambar dari website tertentu
 ### (a)
 Mengunduh 23 gambar dari `https://loremflickr.com/320/240/kitten` dan menyimpan log-nya ke file `Foto.log`, kemudian menyimpannya dengan nama `Koleksi_XX`
+```
+host="https://loremflickr.com"
+to=$(curl -s -i "https://loremflickr.com/320/240/kitten" | grep "location" | awk -F ': ' '{print $2}' | tr -d $'\r')
+download="$host$to"
+```
+Disini kami menggunakan url untuk membandingkan foto yang sama dimana variabel to merupakan variabel penting untuk membandingkan tiap gambarnya. Untuk variabel download digunakan untuk disimpan pada Foto.log
+
+```
+if [ $(cat Foto.log | grep -c "${download}") -gt 1 ]
+    then
+        rm $name
+else
+if [ 1 -eq $(echo "${number} <10" | bc) ]
+        then
+            number="0${number}"
+        fi
+
+    filename="Koleksi_${number}.jpg"
+    mv $name "$filename"
+```
+Sebelumnya telah dijelaskan bahwa untuk mendeteksi gambar yang sama dengan membandingkan url pada tiap gambar. Disini url telah disimpan di Foto.log maka akan dihitung dari log tersebut. Jika url yang sama sudah lebih dari 1, maka foto tersebut akan dihapus dan jika sebaliknya akan di ganti nama filenya.
+
 ### (b)
 Menjalankan script dengan jadwal sehari sekali pada jam 8 malam untuk tanggal-tanggal tertentu setiap bulan, yaitu dari tanggal 1 tujuh hari sekali (1,8,...), serta dari tanggal 2 empat hari sekali(2,6,...). Kemudian dipindahkan ke folder dengan nama sesuai tanggal unduhannya
+```
+date=$(date +'%d-%m-%Y')
+
+if [ ! -d "$date" ]
+then
+    mkdir "$date"
+fi
+```
+Untuk membuat folder dibutuhkan tanggal terlebih dahulu, maka fungsi dari variabel date adalah untuk menyimpan tanggal. Jika folder tanggal hari ini telah dibuat maka akan datanya akan disimpan di folder yang telah dibuat. Untuk script selebihnya sama dengan soal3a hanya ada perbedaan pada directory file saja.
+
+```
+0 20 1-31/7,2-31/4 * * /home/Downloads/Downloads/soal-shift-sisop-modul-1-F07-2021/soal3b.sh
+```
+
+
 ### (c)
 Mengunduh gambar dari `https://loremflickr.com/320/240/bunny`, kemudian diunduh secara bergantian dengan sumber di poin **(a)**. Kemudian disimpan ke folder dengan nama yang sesuai dengan jenisnya ("Kucing_" atau "Kelinci_")
+```
+currentDate=$(date +'%d-%m-%Y')
+yesterdayDate=$(date -d "yesterday" +'%d-%m-%Y')
+
+if [ $(ls -l | grep "$yesterdayDate" | grep -c "Kucing") -eq 0 ]
+then
+    if [ ! -d "Kucing_$currentDate" ]
+    then
+        mkdir "Kucing_$currentDate"
+    fi
+    kucing
+else
+    if [ ! -d "Kelinci_$currentDate" ]
+    then
+        mkdir "Kelinci_$currentDate"
+    fi
+    kelinci
+fi
+```
+Untuk fungsi dari kucing dan kelinci sama seperti fungsi 3a hanya diubah pada directory file saja dan untuk kelinci diubah pada url. Disini saya menggunakan kucing sebagai awalan, untuk cara kerjanya sendiri yaitu mengecek folder kucing dan tanggal dengan tanggal kemarin, jika tidak ada maka akan dibuat folder kucing terlebih dahulu lalu menjalankan fungsi kucing. Jika tidak maka akan membuat folder kelinci dan menjalankan fungsi kelinci.
+
 ### (d)
 Memindahkan seluruh folder ke zip dan menguncinya dengan password
+
+
 ### (e)
 Membuat koleksi sebelumnya ter-**zip** di waktu: setiap hari kecuali sabtu dan minggu, dari jam 7 pagi sampai 6 sore. Selain di jadwal tersebut, file ter-**unzip**
