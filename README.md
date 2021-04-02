@@ -24,16 +24,59 @@ grep -oE "(INFO.*)|(ERROR.*)" syslog.log
 ```
 - `grep` command untuk mencari file dengan pola yang telah ditentukan
 - `-o` option untuk menampilkan bagian yang hanya sesuai dengan pola
-- `-E` menerjemahkan pola sebagai extended regular expression (ERE)
+- `-E` menerjemahkan pola sebagai extended regular expressions (EREs)
 - `"(INFO.*)|(ERROR.*)"` pola yang akan dicari
   - Tanda kurung `()` digunakan untuk mengelompokkan pola dan dapat mereferensikan mereka sebagai satu item
-  - Simbol bintang `*` pada `INFO.*` dan `EEROR.*` adalah quantifier untuk mencocokkan pola dimulai dari nol dan seterusnya
+  - Simbol bintang `*` pada `INFO.*` dan `ERROR.*` adalah quantifier untuk mencocokkan pola dimulai dari nol dan seterusnya
   - Operator pipe `|` memiliki arti alternatif sebagai *"OR"*.  Operator ini memungkinkan untuk mencari kemungkinan pola dari `ERROR.*` dan `INFO.*`
  
 ### (b)
 Menampilkan semua pesan error dengan jumlah kemunculannya.
+```
+grep -oE 'ERROR.*' syslog.log
+echo | grep -cE 'ERROR' syslog.log 
+```
+- `grep -oE 'ERROR.*' syslog.log` command yang akan berjalan pertama kali, menampilkan pesan ERROR
+  - `grep` command untuk mencari file dengan pola yang telah ditentukan
+  - `-o` option untuk menampilkan bagian yang hanya sesuai dengan pola
+  - `-E` menerjemahkan pola sebagai extended regular expressions (EREs)
+  - Simbol bintang `*` pada `ERROR.*` adalah quantifier untuk mencocokkan pola dimulai dari nol dan seterusnya
+- `echo | grep -cE 'ERROR' syslog.log ` command yang akan berjalan berikutnya, menampilkan jumlah pesan ERROR
+  - `echo` untuk menampilkan string yang di-input. String di sini adalah sebuah command, maka `echo` akan menampilkan hasil dari command tersebut
+  - `grep` command untuk mencari file dengan pola yang telah ditentukan
+  - `-c` menghitung banyaknya line yang sesuai dengan pola
+  - `-E` menerjemahkan pola sebagai extended regular expressions (EREs)
+
 ### (c)
-Menampilkan jumlah kemunculan log ERROR dan INFO untuk setiap *user*-nya
+Menampilkan jumlah kemunculan log ERROR dan INFO untuk setiap *user*-nya.
+```
+name=`grep -oE "(\([a-zA-Z]+\))" syslog.log | sort | uniq | grep -oP "(?<=\().*(?=\))"`
+echo "$name" |
+while read -r lines
+do
+    total=`grep -c "$lines" syslog.log`
+    lines+=','$total
+    echo $lines
+done
+```
+- Variabel `name` berisi command untuk mendapatkan username
+  - `grep -oE "(\([a-zA-Z]+\))" syslog.log | sort | uniq | grep -oP "(?<=\().*(?=\))"` command untuk mendapatkan username
+    - `grep -oE "(\([a-zA-Z]+\))" syslog.log`
+      - `grep` command untuk mencari file dengan pola yang telah ditentukan
+      - `-o` option untuk menampilkan bagian yang hanya sesuai dengan pola
+      - `-E` menerjemahkan pola sebagai extended regular expressions (EREs)
+      - `([a-zA-Z]` pola untuk menampilkan baris apapun yang memiliki setidaknya satu huruf, dengan awalan huruf kecil atau pun huruf kapital dan dimulai dari tanda buka kurung `(`
+      - Simbol tambah `+` pada `[a-zA-Z]+` adalah quantifier untuk mencocokkan pola dimulai dari satu dan seterusnya
+    - `sort` mengurutkan output dari `grep -oE "(\([a-zA-Z]+\))" syslog.log` sesuai dengan abjad yang dioper melalui operator pipe `|`
+    - `uniq` menyaring username sehingga tidak ada yang duplikat
+    - `grep -oP "(?<=\().*(?=\))"`
+      - `grep` command untuk mencari file dengan pola yang telah ditentukan
+      - `-o` option untuk menampilkan bagian yang hanya sesuai dengan pola
+      - `-P` menerjemahkan pola sebagai Perl-compatible regular expressions (PCREs)
+      - `(?<=\().*(?=\))` menggunakan *lookbehind*. `?<=\()` untuk mencocokkan pola setelah tanda buka kurung `(` dan `.*` mengambil semua string yang setelahnya. `(?=\))` untuk membatasi string yang diambil, yaitu hingga sebelum tanda tutup kurung `)`
+- `echo "$name"` menampilkan tiap isi dari variabel name
+- Operator pipe `|` untuk mengoper hasil ouput `echo "$name"` ke program perulangan while di bawahnya
+
 ### (d)
 Informasi yang didapat di poin **(b)** dituliskan ke dalam file `error_message.csv` dengan header **Error, Count** diurutkan berdasarkan *jumlah kemunculan pesan error terbanyak*
 ### (e)
