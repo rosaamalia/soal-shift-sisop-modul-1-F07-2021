@@ -126,14 +126,40 @@ done | sort  -rnk 2 -t ',' >> error_message.csv
     - `-n` mengurutkan berdasarkan nilai numerik/angka
     - `-k 2` menetapkan urutan berdasarkan field ke-2, yaitu field jumlah ERROR
     - `-t ','` mengenali separator field, yaitu tanda koma
-    - `>> error_massage.csv` pesan ERROR yang telah diurutkan dimasukkan tanpa menghilangkan isi `error_massag.csv` yang sudah ada
+    - `>> error_massage.csv` pesan ERROR yang telah diurutkan dimasukkan tanpa menghilangkan isi `error_massage.csv` yang sudah ada
 
 ### (e)
 Semua informasi yang didapatkan pada poin **(c)** dituliskan ke dalam file `user_statistic.csv` dengan header **Username,INFO,ERROR** diurutkan berdasarkan *username* secara *ascending*
-```Shell
-
 ```
-
+echo "Username", "INFO", "ERROR" > user_statistics.csv
+name=`grep -oE "(\([a-zA-Z]+\))" syslog.log | sort | uniq | grep -oP "(?<=\().*(?=\))"`
+for i in $name
+do
+    echo "$i, $(grep -cP "INFO.*($i)" syslog.log), $(grep -cP "ERROR.*($i)" syslog.log)"
+done | sort >> user_statistics.csv
+```
+- `echo "Username", "INFO", "ERROR" > user_statistics.csv` menambah *Username*, *INFO* dan *ERROR* sebagai header pada file `user_statistics.csv`
+- Variabel `name` berisi command untuk mendapatkan username
+  - `grep -oE "(\([a-zA-Z]+\))" syslog.log | sort | uniq | grep -oP "(?<=\().*(?=\))"` command untuk mendapatkan username
+    - `grep -oE "(\([a-zA-Z]+\))" syslog.log`
+      - `grep` command untuk mencari file dengan pola yang telah ditentukan
+      - `-o` option untuk menampilkan bagian yang hanya sesuai dengan pola
+      - `-E` menerjemahkan pola sebagai extended regular expressions (EREs)
+      - `([a-zA-Z]` pola untuk menampilkan baris apapun yang memiliki setidaknya satu huruf, dengan awalan huruf kecil atau pun huruf kapital dan dimulai dari tanda buka kurung `(`
+      - Simbol tambah `+` pada `[a-zA-Z]+` adalah quantifier untuk mencocokkan pola dimulai dari satu dan seterusnya
+- `for i in $name` perulangan for dengan `$name` sebagai `i`
+- `echo "$i, $(grep -cP "INFO.*($i)" syslog.log), $(grep -cP "ERROR.*($i)" syslog.log)"` menampilkan jumlah INFO dan ERROR
+  - `$i` username
+  - `$(grep -cP "INFO.*($i)" syslog.log)` jumlah INFO sesuai dengan username
+    - `grep` command untuk mencari file dengan pola yang telah ditentukan
+    - `-c` menghitung banyaknya line yang sesuai dengan pola `INFO.*($i)`
+    - `-P` menerjemahkan pola sebagai Perl-compatible regular expressions (PCREs)
+    - `INFO.*($i)` pola yang dicari. Diawali dengan "INFO" dan diikuti dengan kata setelahnya `.*` sampai username `($i)`
+  - `$(grep -cP "ERROR.*($i)" syslog.log)` jumlah ERROR sesuai dengan username
+    - Sama dengan command di atas, bedanya hanya pola dimulai dari "ERROR"
+- `sort >> user_statistics.csv` memindahkan output dan menambahkannya di bawah `user_statistics.csv`
+  - `sort` mengurutkan input
+  
 ## No.2
 Mencari kesimpulan dari data penjualan `Laporan-TokoShiSop.tsv`
 ```Shell
