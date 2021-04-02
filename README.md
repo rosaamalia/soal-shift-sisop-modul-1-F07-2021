@@ -19,7 +19,7 @@ dengan setiap barisnya memiliki pola:
 
 ### (a)
 Membuat regex untuk enampilkan informasi dari file log. Informasi yang dibutuhkan diantaranya: jenis pesan log (INFO/ERROR), pesan log dan username.
-```
+```Shell
 grep -oE "(INFO.*)|(ERROR.*)" syslog.log
 ```
 - `grep` command untuk mencari file dengan pola yang telah ditentukan
@@ -32,7 +32,7 @@ grep -oE "(INFO.*)|(ERROR.*)" syslog.log
  
 ### (b)
 Menampilkan semua pesan error dengan jumlah kemunculannya.
-```
+```Shell
 grep -oE 'ERROR.*' syslog.log
 echo | grep -cE 'ERROR' syslog.log 
 ```
@@ -49,7 +49,7 @@ echo | grep -cE 'ERROR' syslog.log
 
 ### (c)
 Menampilkan jumlah kemunculan log ERROR dan INFO untuk setiap *user*-nya.
-```
+```Shell
 name=`grep -oE "(\([a-zA-Z]+\))" syslog.log | sort | uniq | grep -oP "(?<=\().*(?=\))"`
 echo "$name" |
 while read -r lines
@@ -87,7 +87,7 @@ done
 
 ### (d)
 Informasi yang didapat di poin **(b)** dituliskan ke dalam file `error_message.csv` dengan header **Error, Count** diurutkan berdasarkan *jumlah kemunculan pesan error terbanyak*
-```
+```Shell
 echo "Error","Count" > error_message.csv
 error=`grep -oE "ERROR.*([A-Z][a-z]+)\s(['A-Za-z]+\s){1,5}" syslog.log | sort | uniq`
 echo "$error" |
@@ -130,10 +130,13 @@ done | sort  -rnk 2 -t ',' >> error_message.csv
 
 ### (e)
 Semua informasi yang didapatkan pada poin **(c)** dituliskan ke dalam file `user_statistic.csv` dengan header **Username,INFO,ERROR** diurutkan berdasarkan *username* secara *ascending*
+```Shell
+
+```
 
 ## No.2
 Mencari kesimpulan dari data penjualan `Laporan-TokoShiSop.tsv`
-```
+```Shell
 #!/usr/bin/bash
 
 awk -F"\t" '
@@ -182,7 +185,7 @@ else
 
 ### (a)
 Menampilkan ID dan profit percentage terbesar menggunakan formula: `profit percentage = (profit/cost price) x 100` dengan *cost price* didapatkan dari pengurangan Sales dengan Profit.
-```
+```Shell
 { pp=$21/($18-$21)*100; if (pp>=max) { max=pp; id=$1 } }
 ```
 - `pp=$21/($18-$21)*100` deklarasi nilai profit percentage, akan berubah di sesuai baris input
@@ -192,7 +195,7 @@ Menampilkan ID dan profit percentage terbesar menggunakan formula: `profit perce
 
 ### (b)
 Menampilkan nama *customer* pada transaksi tahun 2017 di Albuquerque
-```
+```Shell
 { if ((match($3, "-17")) && $10=="Albuquerque") { nama[$7] } }
 ```
 - `if ((match($3, "-17")) && $10=="Albuquerque")` mencari kondisi yang sesuai
@@ -202,7 +205,7 @@ Menampilkan nama *customer* pada transaksi tahun 2017 di Albuquerque
 
 ### (c)
 Menampilkan segment customer dan jumlah transaksinya yang paling sedikit
-```
+```Shell
 { if ($8=="Home Office") { home++ } else if ($8=="Consumer") { consumer++ } else if ($8=="Corporate") { corporate++ } }
 ```
 - Mencari kondisi yang sesuai di kolom **Segment**
@@ -211,7 +214,7 @@ Menampilkan segment customer dan jumlah transaksinya yang paling sedikit
 
 ### (d)
 Menampilkan wilayah bagian (region) yang memiliki total keuntungan (profit) paling sedikit dan total keuntungan wilayah tersebut
-```
+```Shell
 { if ($13=="Central") { central+=$21 } else if ($13=="East") { east+=$21 } else if ($13=="South") { south+=$21 } else if ($13=="West") { west+=$21 } }
 ```
 - Mencari kondisi yang sesuai di kolom **Region**
@@ -222,7 +225,7 @@ Menampilkan wilayah bagian (region) yang memiliki total keuntungan (profit) pali
 ### (e)
 Membuat script yang menghasilkan file **hasil.txt** dengan format yang sudah ditentukan.
 Pada blok END akan mencetak setiap soal yang telah dibuat dengan format yang sudah ditentukan.
-```
+```Shell
 Laporan-TokoShiSop.tsv > hasil.txt
 ```
 - `Laporan-TokoShiSop.tsv` sumber file yang menjadi input
@@ -232,14 +235,14 @@ Laporan-TokoShiSop.tsv > hasil.txt
 Mengunduh gambar dari website tertentu
 ### (a)
 Mengunduh 23 gambar dari `https://loremflickr.com/320/240/kitten` dan menyimpan log-nya ke file `Foto.log`, kemudian menyimpannya dengan nama `Koleksi_XX`
-```
+```Shell
 host="https://loremflickr.com"
 to=$(curl -s -i "https://loremflickr.com/320/240/kitten" | grep "location" | awk -F ': ' '{print $2}' | tr -d $'\r')
 download="$host$to"
 ```
 Disini kami menggunakan url untuk membandingkan foto yang sama dimana variabel to merupakan variabel penting untuk membandingkan tiap gambarnya. Untuk variabel download digunakan untuk disimpan pada Foto.log
 
-```
+```Shell
 if [ $(cat Foto.log | grep -c "${download}") -gt 1 ]
     then
         rm $name
@@ -256,7 +259,7 @@ Sebelumnya telah dijelaskan bahwa untuk mendeteksi gambar yang sama dengan memba
 
 ### (b)
 Menjalankan script dengan jadwal sehari sekali pada jam 8 malam untuk tanggal-tanggal tertentu setiap bulan, yaitu dari tanggal 1 tujuh hari sekali (1,8,...), serta dari tanggal 2 empat hari sekali(2,6,...). Kemudian dipindahkan ke folder dengan nama sesuai tanggal unduhannya
-```
+```Shell
 date=$(date +'%d-%m-%Y')
 
 if [ ! -d "$date" ]
@@ -273,7 +276,7 @@ Untuk membuat folder dibutuhkan tanggal terlebih dahulu, maka fungsi dari variab
 
 ### (c)
 Mengunduh gambar dari `https://loremflickr.com/320/240/bunny`, kemudian diunduh secara bergantian dengan sumber di poin **(a)**. Kemudian disimpan ke folder dengan nama yang sesuai dengan jenisnya ("Kucing_" atau "Kelinci_")
-```
+```Shell
 currentDate=$(date +'%d-%m-%Y')
 yesterdayDate=$(date -d "yesterday" +'%d-%m-%Y')
 
@@ -296,7 +299,22 @@ Untuk fungsi dari kucing dan kelinci sama seperti fungsi 3a hanya diubah pada di
 
 ### (d)
 Memindahkan seluruh folder ke zip dan menguncinya dengan password
+```
+#zip
+0 7 * * 1-5 /home/Downloads/Downloads/soal-shift-sisop-modul-1-F07-2021/soal3d.sh
 
+#unzip
+0 18 * * 1-5 pass=$(date +'%m%d%Y'); unzip -P "$pass" Koleksi.zip; rm Koleksi.zip
+```
 
 ### (e)
 Membuat koleksi sebelumnya ter-**zip** di waktu: setiap hari kecuali sabtu dan minggu, dari jam 7 pagi sampai 6 sore. Selain di jadwal tersebut, file ter-**unzip**
+```
+pass=`date +'%m%d%Y'`
+
+for i in */ ; do
+    echo "$i"
+    zip -r -P $pass Koleksi.zip . -i "$i*"
+    rm -rf "$i"
+done
+```
