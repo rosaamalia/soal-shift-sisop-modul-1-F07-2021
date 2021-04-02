@@ -5,11 +5,33 @@ Kelompok F07
 3. Rosa Amalia 05111940000106
 
 ## No.1
-Membuat laporan pesan log beserta keterangan lainnya dari file `syslog.log`
+Membuat laporan pesan log beserta keterangan lainnya dari file *syslog.log*. Pada file tersebut berisikan data sebagai berikut:
+```
+...
+Jan 31 00:44:34 ubuntu.local ticky: ERROR Permission denied while closing ticket (ac)
+Jan 31 01:00:50 ubuntu.local ticky: INFO Commented on ticket [#4709] (blossom)
+...
+```
+dengan setiap barisnya memiliki pola:
+```
+<time> <hostname> <app_name>: <log_type> <log_message> (<username>)
+```
+
 ### (a)
-Menampilkan informasi dari file log. Informasi yang dibutuhkan diantaranya: jenis pesan log (INFO/ERROR0, pesan log dan username
+Membuat regex untuk enampilkan informasi dari file log. Informasi yang dibutuhkan diantaranya: jenis pesan log (INFO/ERROR), pesan log dan username.
+```
+grep -oE "(INFO.*)|(ERROR.*)" syslog.log
+```
+- `grep` command untuk mencari file dengan pola yang telah ditentukan
+- `-o` option untuk menampilkan bagian yang hanya sesuai dengan pola
+- `-E` menerjemahkan pola sebagai extended regular expression (ERE)
+- `"(INFO.*)|(ERROR.*)"` pola yang akan dicari
+  - Tanda kurung `()` digunakan untuk mengelompokkan pola dan dapat mereferensikan mereka sebagai satu item
+  - Simbol bintang `*` pada `INFO.*` dan `EEROR.*` adalah quantifier untuk mencocokkan pola dimulai dari nol dan seterusnya
+  - Operator pipe `|` memiliki arti alternatif sebagai *"OR"*.  Operator ini memungkinkan untuk mencari kemungkinan pola dari `ERROR.*` dan `INFO.*`
+ 
 ### (b)
-Menampilkan semua pesan error dengan jumlah kemunculannya
+Menampilkan semua pesan error dengan jumlah kemunculannya.
 ### (c)
 Menampilkan jumlah kemunculan log ERROR dan INFO untuk setiap *user*-nya
 ### (d)
