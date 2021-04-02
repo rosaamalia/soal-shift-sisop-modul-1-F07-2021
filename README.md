@@ -130,7 +130,7 @@ done | sort  -rnk 2 -t ',' >> error_message.csv
 
 ### (e)
 Semua informasi yang didapatkan pada poin **(c)** dituliskan ke dalam file `user_statistic.csv` dengan header **Username,INFO,ERROR** diurutkan berdasarkan *username* secara *ascending*
-```
+```Shell
 echo "Username", "INFO", "ERROR" > user_statistics.csv
 name=`grep -oE "(\([a-zA-Z]+\))" syslog.log | sort | uniq | grep -oP "(?<=\().*(?=\))"`
 for i in $name
