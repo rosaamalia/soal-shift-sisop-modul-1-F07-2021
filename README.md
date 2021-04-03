@@ -410,9 +410,6 @@ Folder zip yang terbuat:
 
 ![Folder zip](https://user-images.githubusercontent.com/68428942/113465039-57266180-945b-11eb-9834-9e8c28f6b266.jpg)
 
-
-### (e)
-Membuat koleksi sebelumnya ter-**zip** di waktu: setiap hari kecuali sabtu dan minggu, dari jam 7 pagi sampai 6 sore. Selain di jadwal tersebut, file ter-**unzip**
 ```
 pass=`date +'%m%d%Y'`
 
@@ -422,14 +419,16 @@ for i in */ ; do
     rm -rf "$i"
 done
 ```
-### cron3e.tab
+
+### (e) cron3e.tab
+Membuat koleksi sebelumnya ter-**zip** di waktu: setiap hari kecuali sabtu dan minggu, dari jam 7 pagi sampai 6 sore. Selain di jadwal tersebut, file ter-**unzip**
 Setiap hari kecuali sabtu dan minggu, dari jam 7 pagi sampai 6 sore, ia memintamu untuk membuat koleksinya ter-zip.
 
-	0 7-18 * * 1-5 bash ~/soal-shift-sisop-modul-1-C04-2021/soal3d.sh
+	#zip
+	0 7 * * 1-5 /home/Downloads/Downloads/soal-shift-sisop-modul-1-F07-2021/soal3d.sh
+
+	#unzip
+	0 18 * * 1-5 pass=$(date +'%m%d%Y'); unzip -P "$pass" Koleksi.zip; rm Koleksi.zip
 	
 Crontab diatas menjelaskan bahwa pada jam 07.00 sampai 18.00 dari hari senin sampai jumat untuk menjalankan script untuk membuat koleksi zipnya pada script soal3d.sh.
 Selain dari waktu yang disebutkan, ia ingin koleksinya ter-unzip dan tidak ada file zip sama sekali
-
-	0 0-6,18-23 * * 1-5 password=`date +'%m%d%Y'` && unzip -P $password Koleksi.zip && rm Koleksi.zip
-	
-Crontab diatas menjelaskan bahwa pada jam 00.00 sampai 06.00 dan pada jam 18.00 sampai jam 23.00 dari hari senin sampai jumat untuk menjalankan perintah melakukan unzip Koleksi.zip serta menghapus Koleksi.zip.
