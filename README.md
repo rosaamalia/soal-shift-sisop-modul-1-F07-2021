@@ -340,10 +340,12 @@ then
 fi
 ```
 Untuk membuat folder dibutuhkan tanggal terlebih dahulu, maka fungsi dari variabel date adalah untuk menyimpan tanggal. Jika folder tanggal hari ini telah dibuat maka akan datanya akan disimpan di folder yang telah dibuat. Untuk script selebihnya sama dengan soal3a hanya ada perbedaan pada directory file saja.
+### Cron3b.tab
 
 ```
 0 20 1-31/7,2-31/4 * * /home/Downloads/Downloads/soal-shift-sisop-modul-1-F07-2021/soal3b.sh
 ```
+Crontab diatas menjalankan file yang akan dieksekusi pada sehari sekali pada jam 20.00 pada tanggal-tanggal tertentu setiap bulannya. Untuk tanggal 1, tujuh hari sekali misalkan 1, 8, 15,..., serta dari tanggal 2, empat hari sekali misalkan 2, 6, 10,.., dimana file yang akan dieksekusi berada pada local user atau untuk kasus diatas berada pada
 Saat program dijalankan, akan ada proses mengunduh seperti ini untuk tiap gambar:
 
 ![Proses Download](https://user-images.githubusercontent.com/68428942/113464395-89819000-9456-11eb-8734-790d67a03b6d.png)
@@ -395,13 +397,7 @@ Isi dari folder:
 
 ### (d)
 Memindahkan seluruh folder ke zip dan menguncinya dengan password
-```
-#zip
-0 7 * * 1-5 /home/Downloads/Downloads/soal-shift-sisop-modul-1-F07-2021/soal3d.sh
 
-#unzip
-0 18 * * 1-5 pass=$(date +'%m%d%Y'); unzip -P "$pass" Koleksi.zip; rm Koleksi.zip
-```
 Proses memindahkan folder ke zip:
 
 ![Proses Memindahkan Folder](https://user-images.githubusercontent.com/68428942/113464903-635def00-945a-11eb-93d1-a2e9a3a11a95.png)
@@ -424,11 +420,12 @@ done
 Membuat koleksi sebelumnya ter-**zip** di waktu: setiap hari kecuali sabtu dan minggu, dari jam 7 pagi sampai 6 sore. Selain di jadwal tersebut, file ter-**unzip**
 Setiap hari kecuali sabtu dan minggu, dari jam 7 pagi sampai 6 sore, ia memintamu untuk membuat koleksinya ter-zip.
 
-	#zip
-	0 7 * * 1-5 /home/Downloads/Downloads/soal-shift-sisop-modul-1-F07-2021/soal3d.sh
+```
+#zip
+0 7 * * 1-5 /home/Downloads/Downloads/soal-shift-sisop-modul-1-F07-2021/soal3d.sh
 
-	#unzip
-	0 18 * * 1-5 pass=$(date +'%m%d%Y'); unzip -P "$pass" Koleksi.zip; rm Koleksi.zip
-	
+#unzip
+0 18 * * 1-5 pass=$(date +'%m%d%Y'); unzip -P "$pass" Koleksi.zip; rm Koleksi.zip
+```
 Crontab diatas menjelaskan bahwa pada jam 07.00 sampai 18.00 dari hari senin sampai jumat untuk menjalankan script untuk membuat koleksi zipnya pada script soal3d.sh.
 Selain dari waktu yang disebutkan, ia ingin koleksinya ter-unzip dan tidak ada file zip sama sekali
