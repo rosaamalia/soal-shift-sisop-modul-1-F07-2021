@@ -290,6 +290,10 @@ Laporan-TokoShiSop.tsv > hasil.txt
 - `Laporan-TokoShiSop.tsv` sumber file yang menjadi input
 - `> hasil.txt` hasil output akan dikirim ke file **hasil.txt**
 
+output yang dihasilkan:
+![Output 1c](https://user-images.githubusercontent.com/66562311/113478896-e9f3ea00-94b5-11eb-9259-00ea7fe25230.PNG)
+
+
 ## No.3
 Mengunduh gambar dari website tertentu
 ### (a)
