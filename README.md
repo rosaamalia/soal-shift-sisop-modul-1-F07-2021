@@ -407,6 +407,13 @@ for i in */ ; do
     rm -rf "$i"
 done
 ```
+Membuat variabel `pass` yang digunakan untuk menyimpan password folder yang akan di zip. Pada perulangan for, variabel `i` mengambil semua folder melalui `*/`. Tiap `i` dimasukkan ke dalam `Koleksi.zip` dengan command `zip`.
+- `-r` akan mengecek tiap folder yang akan di zip dengan rekursif
+- `-P` untuk menggunakan password pada folder zip
+- `-i` untuk hanya memasukkan folder yang memiliki nama yang sama dengan `$i*`
+- `rm` untuk menghapus folder `$i`
+  - `-r` menghapus secara rekursif
+  - `-f` mengabaikan file dan argumen yang tidak ada (force)
 
 Proses memindahkan folder ke zip:
 
