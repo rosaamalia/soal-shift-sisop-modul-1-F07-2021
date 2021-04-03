@@ -398,14 +398,6 @@ Isi dari folder:
 ### (d)
 Memindahkan seluruh folder ke zip dan menguncinya dengan password
 
-Proses memindahkan folder ke zip:
-
-![Proses Memindahkan Folder](https://user-images.githubusercontent.com/68428942/113464903-635def00-945a-11eb-93d1-a2e9a3a11a95.png)
-
-Folder zip yang terbuat:
-
-![Folder zip](https://user-images.githubusercontent.com/68428942/113465039-57266180-945b-11eb-9834-9e8c28f6b266.jpg)
-
 ```
 pass=`date +'%m%d%Y'`
 
@@ -415,6 +407,15 @@ for i in */ ; do
     rm -rf "$i"
 done
 ```
+
+Proses memindahkan folder ke zip:
+
+![Proses Memindahkan Folder](https://user-images.githubusercontent.com/68428942/113464903-635def00-945a-11eb-93d1-a2e9a3a11a95.png)
+
+Folder zip yang terbuat:
+
+![Folder zip](https://user-images.githubusercontent.com/68428942/113465039-57266180-945b-11eb-9834-9e8c28f6b266.jpg)
+
 
 ### (e) cron3e.tab
 Membuat koleksi sebelumnya ter-**zip** di waktu: setiap hari kecuali sabtu dan minggu, dari jam 7 pagi sampai 6 sore. Selain di jadwal tersebut, file ter-**unzip**
