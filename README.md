@@ -291,7 +291,7 @@ Laporan-TokoShiSop.tsv > hasil.txt
 - `> hasil.txt` hasil output akan dikirim ke file **hasil.txt**
 
 output yang dihasilkan:
-![Output 1c](https://user-images.githubusercontent.com/66562311/113478896-e9f3ea00-94b5-11eb-9259-00ea7fe25230.PNG)
+![Output no2](https://user-images.githubusercontent.com/66562311/113478896-e9f3ea00-94b5-11eb-9259-00ea7fe25230.PNG)
 
 
 ## No.3
@@ -441,3 +441,14 @@ Setiap hari kecuali sabtu dan minggu, dari jam 7 pagi sampai 6 sore, ia memintam
 ```
 Crontab diatas menjelaskan bahwa pada jam 07.00 sampai 18.00 dari hari senin sampai jumat untuk menjalankan script untuk membuat koleksi zipnya pada script soal3d.sh.
 Selain dari waktu yang disebutkan, ia ingin koleksinya ter-unzip dan tidak ada file zip sama sekali
+
+## Kendala dalam pengerjaan
+Saat mengerjakan nomor 2, output yang dihasilkan tiap-tiap anggota berbeda padahal file yang dijalankan sama sehingga menimbulkan kebingungan. Kendala ini ternyata disebabkan oleh pengaturan tiap linux anggota berbeda.
+
+![kendala no2](https://user-images.githubusercontent.com/68428942/113478905-f4ae7f00-94b5-11eb-9053-a9767788fd09.png)
+
+*Hasil ouput yang tidak sesuai dengan yang seharusnya*
+
+![Output no2](https://user-images.githubusercontent.com/66562311/113478896-e9f3ea00-94b5-11eb-9259-00ea7fe25230.PNG)
+
+*Hasil ouput yang seharusnya*
