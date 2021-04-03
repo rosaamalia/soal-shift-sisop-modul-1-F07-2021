@@ -316,6 +316,19 @@ if [ 1 -eq $(echo "${number} <10" | bc) ]
 ```
 Sebelumnya telah dijelaskan bahwa untuk mendeteksi gambar yang sama dengan membandingkan url pada tiap gambar. Disini url telah disimpan di Foto.log maka akan dihitung dari log tersebut. Jika url yang sama sudah lebih dari 1, maka foto tersebut akan dihapus dan jika sebaliknya akan di ganti nama filenya.
 
+Saat program dijalankan, akan ada proses mengunduh seperti ini untuk tiap gambar:
+
+![Proses Download](https://user-images.githubusercontent.com/68428942/113464052-1c6cfb00-9454-11eb-896b-19e56d8950b6.png)
+
+Dengan Foto.log menyimpan variabel download:
+
+![Foto.log](https://user-images.githubusercontent.com/68428942/113464355-1aa43700-9456-11eb-9023-600376825cea.png)
+
+Dan gambar yang akan terunduh:
+
+![Gambar](https://user-images.githubusercontent.com/68428942/113464268-8c2fb580-9455-11eb-9267-a41c6b6f579b.jpg)
+
+
 ### (b)
 Menjalankan script dengan jadwal sehari sekali pada jam 8 malam untuk tanggal-tanggal tertentu setiap bulan, yaitu dari tanggal 1 tujuh hari sekali (1,8,...), serta dari tanggal 2 empat hari sekali(2,6,...). Kemudian dipindahkan ke folder dengan nama sesuai tanggal unduhannya
 ```Shell
@@ -331,6 +344,17 @@ Untuk membuat folder dibutuhkan tanggal terlebih dahulu, maka fungsi dari variab
 ```
 0 20 1-31/7,2-31/4 * * /home/Downloads/Downloads/soal-shift-sisop-modul-1-F07-2021/soal3b.sh
 ```
+Saat program dijalankan, akan ada proses mengunduh seperti ini untuk tiap gambar:
+
+![Proses Download](https://user-images.githubusercontent.com/68428942/113464395-89819000-9456-11eb-8734-790d67a03b6d.png)
+
+Folder dengan nama sesuai tanggal unduhannya:
+
+![Forder](https://user-images.githubusercontent.com/68428942/113464544-a4083900-9457-11eb-9fc8-06f16dc14f18.jpg)
+
+Dengan isi folder:
+
+![Isi Folder](https://user-images.githubusercontent.com/68428942/113464563-c69a5200-9457-11eb-9832-56f58cc2d0a6.png)
 
 
 ### (c)
@@ -356,6 +380,19 @@ fi
 ```
 Untuk fungsi dari kucing dan kelinci sama seperti fungsi 3a hanya diubah pada directory file saja dan untuk kelinci diubah pada url. Disini saya menggunakan kucing sebagai awalan, untuk cara kerjanya sendiri yaitu mengecek folder kucing dan tanggal dengan tanggal kemarin, jika tidak ada maka akan dibuat folder kucing terlebih dahulu lalu menjalankan fungsi kucing. Jika tidak maka akan membuat folder kelinci dan menjalankan fungsi kelinci.
 
+Saat program dijalankan, akan ada proses mengunduh seperti ini untuk tiap gambar:
+
+![Proses Download](https://user-images.githubusercontent.com/68428942/113464669-bf277880-9458-11eb-865d-aea9b82e2a95.png)
+
+Folder yang akan terbuat:
+
+![Folder](https://user-images.githubusercontent.com/68428942/113464840-ee8ab500-9459-11eb-8ad3-7334d0ff00e8.jpg)
+
+Isi dari folder:
+
+![Isi Folder](https://user-images.githubusercontent.com/68428942/113464862-1417be80-945a-11eb-8a6f-8770d80f4d0f.png)
+
+
 ### (d)
 Memindahkan seluruh folder ke zip dan menguncinya dengan password
 ```
@@ -365,6 +402,14 @@ Memindahkan seluruh folder ke zip dan menguncinya dengan password
 #unzip
 0 18 * * 1-5 pass=$(date +'%m%d%Y'); unzip -P "$pass" Koleksi.zip; rm Koleksi.zip
 ```
+Proses memindahkan folder ke zip:
+
+![Proses Memindahkan Folder](https://user-images.githubusercontent.com/68428942/113464903-635def00-945a-11eb-93d1-a2e9a3a11a95.png)
+
+Folder zip yang terbuat:
+
+![Folder zip](https://user-images.githubusercontent.com/68428942/113465039-57266180-945b-11eb-9834-9e8c28f6b266.jpg)
+
 
 ### (e)
 Membuat koleksi sebelumnya ter-**zip** di waktu: setiap hari kecuali sabtu dan minggu, dari jam 7 pagi sampai 6 sore. Selain di jadwal tersebut, file ter-**unzip**
